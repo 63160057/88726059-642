@@ -1,8 +1,22 @@
 body {
     font-family: sans-serif;
-    background-color: rgb(185, 179, 175);
+    background-color:mistyrose;
+    margin:0 auto;
+    width:800px;
 }
 
 h1 {
-    color: rgb(255, 255, 255);
+    color:orchid;
+    text-align: center;
+}
+
+h3{
+    color: chocolate;
+}
+
+#ul1 {
+    list-style-type: none;
+}
+#li1 {
+    margin: 10px 0px 0px 0px;
 }
