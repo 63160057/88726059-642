@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Form demo</title>
+    </head>
+    <body>
+        <h1>Hotel Booking</h1>
+        <form method="post" action="https://angsila.cs.buu.ac.th/~wittawas/642/88726059/services/post.php">
+            <table>
+                <tr>
+                    <td><label for="roomtype">Room Type</label></td>
+                    <td>
+                        <select style="width: 345px;">
+                            <option value="0">Please Select</option>
+                            <option value="1">Standard</option>
+                            <option value="2">Luxury</option>
+                            <option value="3">Deluxe</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numguest">Number of Guests</label></td>
+                    <td>
+                        <select style="width: 345px;">
+                            <option value="0">Please Select</option>
+                            <option value="1">1-2</option>
+                            <option value="2">3-4</option>
+                            <option value="3">5-6</option>
+                            <option value="3">7-8</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label >Name</label></td>
+                    <td>
+                        <input type="text" name="fname" id="fname" placeholder="firstname">
+                        <input type="text" name="lname" id="lname" placeholder="lastname">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="email">Name</label></td>
+                    <td>
+                        <input type="email" name="email" id="email" placeholder="john@company.com" style="width: 337px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="arrival">Arrival</label></td>
+                    <td>
+                        <input type="date" name="arrivaldate" id="arrivaldate" placeholder="MM/DD/YYYY" >
+                        <input type="time" name="arrivaltime" id="arrivaltime" placeholder="HH/MM" >
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="departure">Departure</label></td>
+                    <td>
+                        <input type="date" name="departuredate" id="departuredate" placeholder="MM/DD/YYYY" >
+                        <input type="time" name="departuretime" id="departuretime" placeholder="HH/MM" >
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="freepickup">Free pickup</label></td>
+                    <td>
+                        <input type="radio" name="pickup" id="pickup" value="Yes">Yes,Sure!<br>
+                        <input type="radio" name="pickup" id="pickup" value="No">No,I already rented a car.<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="flightnum">Flight Number</label></td>
+                    <td>
+                        <input type="text" name="flightnum" id="flightnum" placeholder="C1209" style="width: 337px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="otherreq">Other requests</label></td>
+                    <td>
+                        <textarea name="otherreq" id="otherreq" rows="5" cols="50"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="submit" id="submit" value="Complete Reservation">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
