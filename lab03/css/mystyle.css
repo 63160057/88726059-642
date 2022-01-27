@@ -2,7 +2,7 @@ body {
     font-family: sans-serif;
     background-color:mistyrose;
     margin:0 auto;
-    width:800px;
+    width:1000px;
 }
 
 h1 {
@@ -19,4 +19,45 @@ h3{
 }
 #li1 {
     margin: 10px 0px 0px 0px;
+}
+
+#table100{
+    width: 100%;
+}
+#td70{
+    width: 70%;
+}
+
+hr{
+    height: 10px;
+    width: 100%;
+    border-width: 0;
+    color: peru;
+    background-color: peru;
+}
+#sunflower{
+    border: 3px solid sandybrown;
+    width: 350px;
+    height: 200px;
+}
+
+#tdcolor1{
+    background-color: saddlebrown;
+    width: 33.3%;
+    height: 50px;
+}
+#tdcolor2{
+    background-color: rgb(139, 69, 19,0.8);
+    width: 33.3%;
+    height: 50px;
+}
+#tdcolor3{
+    background-color: rgb(139, 69, 19,0.5);
+    width: 33.3%;
+    height: 50px;
+}
+
+#textarea1{
+    height: 150px;
+    width: 300px;
 }
