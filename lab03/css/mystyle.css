@@ -64,3 +64,11 @@ hr{
 #select345{
     width: 345px;
 }
+
+#breakfast{
+    height: 600px;
+    width: 1000px;
+}
+figcaption{
+    text-align: center;
+}
