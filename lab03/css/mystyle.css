@@ -72,3 +72,16 @@ hr{
 figcaption{
     text-align: center;
 }
+#picheight{
+    border: 5px solid palevioletred;
+    width: 300px;
+    height: 400px;
+}
+img.align-center {
+    display: block;
+    margin: 0px auto;
+}
+#picwidht{
+    width: 330px;
+    height: 200px;
+}
