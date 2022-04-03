@@ -1,4 +1,9 @@
 <?php
+session_start();
+if(!isset($_SESSION['loggined'])){
+    header('Location: login.php');
+}
+
 require_once("dbconfig.php");
 
 // ตรวจสอบว่ามีการ post มาจากฟอร์ม ถึงจะลบ
@@ -9,33 +14,48 @@ if ($_POST){
     $doc_start_date = $_POST['doc_start_date'];
     $doc_to_date = $_POST['doc_to_date'];
     $doc_status = $_POST['doc_status'];
-    $doc_file_name = $_POST['doc_file_name'];
+    $doc_file_name = $_FILES["doc_file_name"]["name"];
 
-    $sql = "UPDATE documents 
+    if($_FILES['doc_file_name']['name']<>""){
+        $sql = "UPDATE documents
             SET doc_num = ?, 
                 doc_title = ?,
                 doc_start_date = ?,
                 doc_to_date = ?,
-                doc_status = ?,
-                doc_file_name = ?
+                doc_status =?,
+                doc_file_name =?
+                
             WHERE id = ?";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("ssssssi", $doc_num, $doc_title, $doc_start_date, $doc_to_date, $doc_status, $doc_file_name, $id);
+    $stmt->bind_param("ssssssi", $doc_num, $doc_title, $doc_start_date, $doc_to_date, $doc_status, $doc_file_name,$id);
     $stmt->execute();
-
-    header("location: index.php");
-} else {
-    $id = $_GET['id'];
-    $sql = "SELECT *
-            FROM documents
+    } else{
+        $sql = "UPDATE documents
+            SET doc_num = ?, 
+                doc_title = ?,
+                doc_start_date = ?,
+                doc_to_date = ?,
+                doc_status =?,
+               
+                
             WHERE id = ?";
-
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("sssssi", $doc_num, $doc_title, $doc_start_date, $doc_to_date, $doc_status,$id);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_object();
-}
+    }
+ 
+   
+   
+     
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES['doc_file_name']["name"]);
+    if (move_uploaded_file($_FILES['doc_file_name']["tmp_name"], $target_file)) {
+      //echo "The file ". htmlspecialchars( basename( $_FILES["dfn"]["name"])). " has been uploaded.";
+    } else {
+      //echo "Sorry, there was an error uploading your file.";
+    }
+
+header("location: document.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,8 +94,8 @@ if ($_POST){
                 <input type="text" class="form-control" name="doc_status" id="doc_status" value="<?php echo $row->doc_status;?>">
             </div>
             <div class="form-group">
-                <label for="doc_file_name">อัพโหลดไฟล์เอกสาร</label>
-                <input type="file" class="form-control" name="doc_file_name" id="doc_file_name" value="<?php echo $row->doc_file_name;?>">
+                <label for="doc_file_name">ชื่อไฟล์เอกสาร</label>
+                <input type="file" class="form-control" name="doc_file_name" id="doc_file_name" >
             </div>
             <input type="hidden" name="id" value="<?php echo $row->id;?>">
             <button type="submit" class="btn btn-success">Update</button>

@@ -1,12 +1,18 @@
 <?php
+
+session_start();
+if(!isset($_SESSION['loggined'])){
+    header('Location: login.php');
+}
+
 require_once("dbconfig.php");
 
-// ตรวจสอบว่ามีการ post มาจากฟอร์ม ถึงจะลบ
-if ($_POST){
-    // ดึงค่าที่โพสจากฟอร์มตาม name ที่กำหนดในฟอร์มมากำหนดให้ตัวแปร $id
-    $id = $_POST['id'];
 
-    // เตรียมคำสั่ง DELETE
+if ($_POST){
+    
+    $id = $_POST['id'];
+    
+   
     $sql = "DELETE 
             FROM staff 
             WHERE id = ?";
@@ -14,13 +20,13 @@ if ($_POST){
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
-    // redirect ไปยังหน้า actor.php
+    
     header("location: staff.php");
 } else {
-    // ดึงค่าที่ส่งผ่านมาทาง query string มากำหนดให้ตัวแปร $id
+    
     $id = $_GET['id'];
     $sql = "SELECT *
-            FROM staff
+            FROM staff 
             WHERE id = ?";
 
     $stmt = $mysqli->prepare($sql);
@@ -53,6 +59,14 @@ if ($_POST){
             <tr>
                 <th>ชื่อ - นามสกุล</th>
                 <td><?php echo $row->stf_name;?></td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td><?php echo $row->username;?></td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td><?php echo $row->passwd;?></td>
             </tr>
         </table>
         <form action="staffDelete.php" method="post">

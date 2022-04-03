@@ -1,4 +1,9 @@
 <?php
+session_start();
+if(!isset($_SESSION['loggined'])){
+    header('Location: login.php');
+}
+
 require_once("dbconfig.php");
 
 if ($_POST){
@@ -7,7 +12,7 @@ if ($_POST){
     $doc_start_date = $_POST['doc_start_date'];
     $doc_to_date = $_POST['doc_to_date'];
     $doc_status = $_POST['doc_status'];
-    $doc_file_name = $_POST['doc_file_name'];
+    $doc_file_name = $_FILES["doc_file_name"]["name"];
 
     // insert a record by prepare and bind
     // The argument may be one of four types:
@@ -25,6 +30,16 @@ if ($_POST){
     $stmt->bind_param("ssssss", $doc_num, $doc_title, $doc_start_date, $doc_to_date, $doc_status, $doc_file_name);
     $stmt->execute();
     
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["doc_file_name"]["name"]);
+    $fileType="pdf";
+    $realname="a.pdf";
+    if (move_uploaded_file($_FILES["doc_file_name"]["tmp_name"], $target_file)) {
+      //echo "The file ". htmlspecialchars( basename( $_FILES["dfn"]["name"])). " has been uploaded.";
+    } else {
+      //echo "Sorry, there was an error uploading your file.";
+    }
+
     // redirect ไปยัง actor.php
     header("location: index.php");
 }
@@ -39,6 +54,31 @@ if ($_POST){
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        function checkdocnum() {
+        var doc_num = document.getElementById("doc_num").value;
+        //document.getElementById("disp").innerHTML = doc_num;
+        var xhttp = new XMLHttpRequest();
+        console.log("hello");
+        xhttp.onreadystatechange = function(){
+            if (this.readyState == 4 && this.status ==200 ) {
+                //document.getElementById("disp").innerHTML = this.responseText;
+                if (this.responseText != ""){
+                    document.getElementById("submit").disabled = true;
+                    document.getElementById("disp").innerHTML = "<a href='addstafftodocument.php?id=" + 
+                    this.responseText + "'>จัดการกรรมการ</a>";
+                }else{
+                    document.getElementById("submit").disabled = false;
+                    document.getElementById("disp").innerHTML = "";
+                }
+            }
+        };
+        //console.log("hello");
+        xhttp.open("GET", "checkdocnum.php?doc_num=" + doc_num, true);
+        //console.log("hello");
+        xhttp.send();
+        }
+    </script>
 </head>
 
 <body>
@@ -62,12 +102,13 @@ if ($_POST){
                 <input type="date" class="form-control" name="doc_to_date" id="doc_to_date" placeholder="ไม่จำเป็นต้องระบุ" >
             </div>
             <div class="form-group">
-                <label for="doc_status">สถานะ</label><br>
-                <input type="text" class="form-control" name="doc_status" id="doc_status" placeholder="Active or Expire">
+                <label for="doc_status">สถานะ</label>
+                <input type="radio"  name="doc_status" id="doc_status" value="Active"> Active
+                <input type="radio"  name="doc_status" id="doc_status" value="Expire"> Expire
             </div>
             <div class="form-group">
-                <label for="doc_file_name">อัพโหลดไฟล์เอกสาร</label>
-                <input type="file" class="form-control" name="doc_file_name" id="doc_file_name">
+                <label for="doc_file_name">ชื่อไฟล์เอกสาร</label>
+                <input type="file" class="form-group" name="doc_file_name" id="doc_file_name">
             </div>
             <button type="submit" class="btn btn-success">Save</button>
         </form>

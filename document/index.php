@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!isset($_SESSION['loggined'])){
+    header('Location: login.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang=en>
 <head>
@@ -71,7 +78,7 @@
             $table.= "<td>$row->doc_start_date</td>";
             $table.= "<td>$row->doc_to_date</td>";
             $table.= "<td>$row->doc_status</td>";
-            $table.= "<td>$row->doc_file_name</td>";
+            $table.= "<td><a href='uploads/$row->doc_file_name'>$row->doc_file_name</a></td>";
             $table.= "<td>";
             $table.= "<a href='edit.php?id=$row->id'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a>";
             $table.= " | ";

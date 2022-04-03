@@ -1,12 +1,22 @@
 <?php
+session_start();
+if(!isset($_SESSION['loggined'])){
+    header('Location: login.php');
+}
+
 require_once("dbconfig.php");
 
-// ตรวจสอบว่ามีการ post มาจากฟอร์ม ถึงจะลบ
 if ($_POST){
-    // ดึงค่าที่โพสจากฟอร์มตาม name ที่กำหนดในฟอร์มมากำหนดให้ตัวแปร $id
+    
     $id = $_POST['id'];
+    $sql = "DELETE 
+            FROM doc_staff
+            WHERE doc_staff.doc_id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
 
-    // เตรียมคำสั่ง DELETE
+   
     $sql = "DELETE 
             FROM documents 
             WHERE id = ?";
@@ -14,13 +24,13 @@ if ($_POST){
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
-    // redirect ไปยังหน้า actor.php
-    header("location: index.php");
+    
+    header("location: document.php");
 } else {
-    // ดึงค่าที่ส่งผ่านมาทาง query string มากำหนดให้ตัวแปร $id
+    
     $id = $_GET['id'];
     $sql = "SELECT *
-            FROM documents
+            FROM documents 
             WHERE id = ?";
 
     $stmt = $mysqli->prepare($sql);
@@ -57,6 +67,18 @@ if ($_POST){
             <tr>
                 <th>วันที่เริ่มต้นคำสั่ง</th>
                 <td><?php echo $row->doc_start_date;?></td>
+            </tr>
+            <tr>
+                <th>วันที่สิ้นสุด</th>
+                <td><?php echo $row->doc_to_date;?></td>
+            </tr>
+            <tr>
+                <th>สถานะ</th>
+                <td><?php echo $row->doc_status;?></td>
+            </tr>
+            <tr>
+                <th>ชื่อไฟล์เอกสาร</th>
+                <td><?php echo $row->doc_file_name;?></td>
             </tr>
         </table>
         <form action="delete.php" method="post">

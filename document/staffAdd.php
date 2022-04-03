@@ -1,25 +1,25 @@
 <?php
+
+session_start();
+if(!isset($_SESSION['loggined'])){
+    header('Location: login.php');
+}
+
 require_once("dbconfig.php");
 
+// ตรวจสอบว่ามีการ post มาจากฟอร์ม ถึงจะเพิ่ม
 if ($_POST){
     $stf_code = $_POST['stf_code'];
     $stf_name = $_POST['stf_name'];
-    // insert a record by prepare and bind
-    // The argument may be one of four types:
-    //  i - integer
-    //  d - double
-    //  s - string
-    //  b - BLOB
-    
-    // ในส่วนของ INTO ให้กำหนดให้ตรงกับชื่อคอลัมน์ในตาราง actor
-    // ต้องแน่ใจว่าคำสั่ง INSERT ทำงานใด้ถูกต้อง - ให้ทดสอบก่อน
+    $username = $_POST['username'];
+    $passwd = md5($_POST['passwd']);
     $sql = "INSERT 
-            INTO staff (stf_code,stf_name) 
-            VALUES (?, ?)";
+            INTO staff (stf_code,stf_name,username,passwd) 
+            VALUES (?, ?,?,?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("ss", $stf_code, $stf_name);
+    $stmt->bind_param("ssss", $stf_code,$stf_name,$username,$passwd);
     $stmt->execute();
-    
+
     // redirect ไปยัง actor.php
     header("location: staff.php");
 }
@@ -47,6 +47,14 @@ if ($_POST){
             <div class="form-group">
                 <label for="stf_name">ชื่อ - นามสกุล</label>
                 <input type="text" class="form-control" name="stf_name" id="stf_name">
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" name="username" id="username">
+            </div>
+            <div class="form-group">
+                <label for="passwd">Password</label>
+                <input type="password" class="form-control" name="passwd" id="passwd">
             </div>
             <button type="submit" class="btn btn-success">Save</button>
         </form>
